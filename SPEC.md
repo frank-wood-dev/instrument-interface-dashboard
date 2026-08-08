@@ -19,14 +19,14 @@ can view the log, clear it, etc.
 
 Global ^Instruments
 
-^Instruments(IDX) = INSTRUMENT_NAME | STATUS
-^Instruments(IDX, "CONTROL") = START_RTN | STOP_RTN
-^Instruments(IDX, "ERRORS", ERROR_IDX) = DATE_OF_ERROR
-^Instruments(IDX, "ERRORS", ERROR_IDX, "ERRORTEXT", TEXT_IDX) = ERROR_TEXT
-^Instruments(IDX, "LOGGING", LOG_IDX) = LOG_DATE
-^Instruments(IDX, "LOGGING", LOG_IDX, TEXT_IDX) = LOG_TEXT
+^Instruments(UNIT_NUM) = INSTRUMENT_NAME | STATUS
+^Instruments(UNIT_NUM, "CONTROL") = START_RTN | STOP_RTN
+^Instruments(UNIT_NUM, "ERRORS", ERROR_IDX) = DATE_OF_ERROR
+^Instruments(UNIT_NUM, "ERRORS", ERROR_IDX, "ERRORTEXT", TEXT_IDX) = ERROR_TEXT
+^Instruments(UNIT_NUM, "LOGGING", LOG_IDX) = LOG_DATE
+^Instruments(UNIT_NUM, "LOGGING", LOG_IDX, TEXT_IDX) = LOG_TEXT
 
-IDX		Internal number 1-nnn; key
+UNIT_NUM	Unique internal unit number (1-nnn)
 INSTRUMENT_NAME	The name of the interface/instrument
 STATUS		STARTING, RUNNING, STOPPING, STOPPED
 START_RTN	MUMPS Starting routine
