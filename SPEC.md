@@ -19,7 +19,8 @@ can view the log, clear it, etc.
 
 Global ^Instruments
 
-^Instruments(UNIT_NUM) = INSTRUMENT_NAME | STATUS
+^Instruments(UNIT_NUM) = STATUS
+^Instruments(UNIT_NUM, "SETTINGS") = INSTRUMENT_NAME|IP_ADDRESS|PORT
 ^Instruments(UNIT_NUM, "CONTROL") = START_RTN | STOP_RTN
 ^Instruments(UNIT_NUM, "ERRORS", ERROR_IDX) = DATE_OF_ERROR
 ^Instruments(UNIT_NUM, "ERRORS", ERROR_IDX, "ERRORTEXT", TEXT_IDX) = ERROR_TEXT
@@ -27,8 +28,10 @@ Global ^Instruments
 ^Instruments(UNIT_NUM, "LOGGING", LOG_IDX, TEXT_IDX) = LOG_TEXT
 
 UNIT_NUM	Unique internal unit number (1-nnn)
-INSTRUMENT_NAME	The name of the interface/instrument
 STATUS		STARTING, RUNNING, STOPPING, STOPPED
+INSTRUMENT_NAME	The name of the interface/instrument
+IP_ADDRESS	Host IP/Name
+PORT		Host Port
 START_RTN	MUMPS Starting routine
 STOP_RTN	MUMPS Stopping routine
 ERROR_IDX	Internal error number 1-nnn
@@ -40,11 +43,21 @@ LOG_TEXT	Log verbiage
 
 
 Example Acquisition START routine:
-START(IDX,INSTRUMENT_NAME) {
-	S ^Instruments(IDX) = INSTRUMENT_NAME | "STARTING";
+START(UNIT_NUME) {
+	S ^Instruments(IDX) = "STARTING";
 	...
 	...go thru start up, serial, etc.
 	...
 	....
-	S ^Instruments(IDX) = INSTRUMENT_NAME | "RUNNING"
+	S ^Instruments(IDX) = "RUNNING";
+}
+
+Example Acquisition STOP routine:
+STOP(UNIT_NUME) {
+	S ^Instruments(IDX) = "STOPPING";
+	...
+	...go thru start up, serial, etc.
+	...
+	....
+	S ^Instruments(IDX) = "STOPPED";
 }
