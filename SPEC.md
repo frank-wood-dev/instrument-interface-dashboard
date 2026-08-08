@@ -1,63 +1,74 @@
-MUMPS (IRIS)
+# MUMPS (IRIS)
 
-Goal: Create a web based Instrument Interface Dashboard
+## Goal
 
-This thing should cycle thru a lit of interfaces (see ^Instruments below) and 
-display each on a row on the screen. The fields will be the name of the interface/instrument,
-a button for control purposes.
+Create a web based Instrument Interface Dashboard.
 
-Button Text:
-STATUS		Button Text	Button Status
-=============================================
-STARTING	STARTING	Disabled	
-RUNNING		STOP		Enabled
-STOPPING	STOPPING	Disabled
-STOPPED		START		Enabled
+This thing should cycle thru a list of interfaces (see `^Instruments` below) and display each on a row on the screen. The fields will be the name of the interface/instrument and a button for control purposes.
 
-Finally, a button to view the log for a given interface. From that screen the user
-can view the log, clear it, etc.
+## Button Text
 
-Global ^Instruments
+| STATUS | Button Text | Button Status |
+|---|---|---|
+| STARTING | STARTING | Disabled |
+| RUNNING | STOP | Enabled |
+| STOPPING | STOPPING | Disabled |
+| STOPPED | START | Enabled |
 
+Finally, a button to view the log for a given interface. From that screen the user can view the log, clear it, etc.
+
+## Global ^Instruments
+
+```text
 ^Instruments(UNIT_NUM) = STATUS
 ^Instruments(UNIT_NUM, "SETTINGS") = INSTRUMENT_NAME|IP_ADDRESS|PORT
-^Instruments(UNIT_NUM, "CONTROL") = START_RTN | STOP_RTN
+^Instruments(UNIT_NUM, "CONTROL") = START_RTN|STOP_RTN
 ^Instruments(UNIT_NUM, "ERRORS", ERROR_IDX) = DATE_OF_ERROR
 ^Instruments(UNIT_NUM, "ERRORS", ERROR_IDX, "ERRORTEXT", TEXT_IDX) = ERROR_TEXT
 ^Instruments(UNIT_NUM, "LOGGING", LOG_IDX) = LOG_DATE
 ^Instruments(UNIT_NUM, "LOGGING", LOG_IDX, TEXT_IDX) = LOG_TEXT
+```
 
-UNIT_NUM	Unique internal unit number (1-nnn)
-STATUS		STARTING, RUNNING, STOPPING, STOPPED
-INSTRUMENT_NAME	The name of the interface/instrument
-IP_ADDRESS	Host IP/Name
-PORT		Host Port
-START_RTN	MUMPS Starting routine
-STOP_RTN	MUMPS Stopping routine
-ERROR_IDX	Internal error number 1-nnn
-DATE_OF_ERROR	DAte error occurred
-ERROR_TEXT	Cause of error, stack, anything else.
-TEXT_IDX	Internal text index number, 1-nnn
-LOG_IDX		Internal log index, 1-nnn
-LOG_TEXT	Log verbiage
+## Field Definitions
 
+| Field | Description |
+|---|---|
+| UNIT_NUM | Unique internal unit number (1-nnn) |
+| STATUS | STARTING, RUNNING, STOPPING, STOPPED |
+| INSTRUMENT_NAME | The name of the interface/instrument |
+| IP_ADDRESS | Host IP/Name |
+| PORT | Host Port |
+| START_RTN | MUMPS Starting routine |
+| STOP_RTN | MUMPS Stopping routine |
+| ERROR_IDX | Internal error number 1-nnn |
+| DATE_OF_ERROR | Date error occurred |
+| ERROR_TEXT | Cause of error, stack, anything else |
+| TEXT_IDX | Internal text index number, 1-nnn |
+| LOG_IDX | Internal log index, 1-nnn |
+| LOG_TEXT | Log verbiage |
 
-Example Acquisition START routine:
-START(UNIT_NUME) {
-	S ^Instruments(IDX) = "STARTING";
-	...
-	...go thru start up, serial, etc.
-	...
-	....
-	S ^Instruments(IDX) = "RUNNING";
+## Example Acquisition START Routine
+
+```text
+START(UNIT_NUM) {
+    S ^Instruments(UNIT_NUM) = "STARTING";
+    ...
+    ...go thru start up, serial, etc.
+    ...
+    ....
+    S ^Instruments(UNIT_NUM) = "RUNNING";
 }
+```
 
-Example Acquisition STOP routine:
-STOP(UNIT_NUME) {
-	S ^Instruments(IDX) = "STOPPING";
-	...
-	...go thru start up, serial, etc.
-	...
-	....
-	S ^Instruments(IDX) = "STOPPED";
+## Example Acquisition STOP Routine
+
+```text
+STOP(UNIT_NUM) {
+    S ^Instruments(UNIT_NUM) = "STOPPING";
+    ...
+    ...go thru stop process, serial, etc.
+    ...
+    ....
+    S ^Instruments(UNIT_NUM) = "STOPPED";
 }
+```
